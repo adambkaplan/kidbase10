@@ -19,7 +19,8 @@ A, E, H, I, L, N, R, S, T, (whitespace)
 
 The characters above are drawn from the most common vowels and consonants in written English [2].
 Future versions or variants of this specification MAY consider a different set of allowed
-characters. The maximum number of allowed characters is 10.
+characters. The maximum number of allowed characters is ten (10), and one (1) whitespace character
+(or equivalent) MUST be included in this set.
 
 Input characters MAY have their lowercase forms as input. Lowercase input letters MUST be converted
 to uppercase form before any encoding begins. Case preservation is not required when encoding and
@@ -32,8 +33,9 @@ character. Preserving specific whitespace values is NOT required when encoding a
 
 ## Encoding Alphabet
 
-The encoding alphabet has 10 entries, one per base-10 digit. The input letters from above are placed in
-alphabetical order on the table. Zero (0) is reserved for the whitespace character.
+The encoding alphabet has 10 entries, one per base-10 digit. The input letters from above are placed
+in alphabetical order on the table. Zero (0) is reserved for the whitespace character or its
+equivalent.
 
 | base10 Digit | Character |
 | ------ | --------- |
