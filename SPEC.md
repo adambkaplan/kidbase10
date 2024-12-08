@@ -29,12 +29,26 @@ character that serves the same function as a whitespace character, MUST
 be present in the set of allowed characters. The set of allowed input
 characters MUST have length ten (10).
 
+### Character Variation
+
+Variants MAY allow a different set of characters as input, as long as
+the total number of characters in the input set equals ten (including
+whitspace).
+
+Variants MAY allow alternate character forms as input and treat these
+as their "base character" equivalents. For example, treating Latin
+uppercase and lowercase characters as equivalent.
+
 ### Whitespace Character
 
 A whitespace character MUST be included in the set of allowed inputs
 for the purpose of separating words and encoding phrases of arbitrary
 length. The ASCII space character (" ") is the canonical whitespace
 character for encoding input and decoding output.
+
+Variants MAY allow an alternate character to serve the role of word
+separator, such as the underscore ("_"), semicolon (";"), or pipe ("|")
+character.
 
 ## Encoding Alphabet
 
@@ -60,6 +74,10 @@ written or presentation materials. This can help visual learners
 understand the relationship between numbers and letters when encoding
 or decoding data.
 
+As stated previously, variants MAY consider a different set of
+characters in the encoding alphabet, so long as all character input
+requirements are satisfied.
+
 ## Encoding Procedure
 
 The encoding process represents groups of N characters ("N-char") as
@@ -80,6 +98,10 @@ in base-10 representation.
 If a whitespace character is encountered at the beggining of an N-char
 group, it MUST be encoded as a leading 0 digit in the resulting base-10
 number.
+
+Variants which treat alternate character forms as equivalent MUST NOT
+report an invalid character error if a given character has its
+alternate representation in the encoding alphabet.
 
 ### Encoding Output
 
@@ -129,6 +151,13 @@ input array, in order. Each resulting N-char MUST be appended to the
 N-char generated from the previous integer in the array. After decoding
 the entire array, any trailing whitespace characters MAY be removed
 when rendering output as text.
+
+### Alternative Character Equivalency
+
+Variants which allow alternative forms of "base characters" as encoding
+input MUST ensure decoded characters are consistent across outputs. For
+example, decoders MAY choose to only render uppercase Latin characters
+as output.
 
 ## Appendix: Examples of Encoding and Decoding
 

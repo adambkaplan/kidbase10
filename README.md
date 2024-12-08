@@ -82,7 +82,14 @@ decodes to `I STARE AT THE HILL`.
 
 ## Specification
 
-The full technical specification can be found in [SPEC.md](./SPEC.md).
+The full technical specification can be found in [SPEC.md](./SPEC.md). 
+
+The specification is designed to be flexible - for example:
+
+- Allowing alternate characters as input (including non-Latin
+characters)
+- Alternative forms of character input (ex: Latin uppercase and lowercase)
+- Variable line length for encoding/decoding.
 
 ## License
 
