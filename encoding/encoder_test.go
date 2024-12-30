@@ -29,6 +29,7 @@ var _ = Describe("Encoder", Label("unit"), func() {
 			Entry("encodes 4-char string", "LANE", "51620000"),
 			Entry("encodes < 8 characters", "I STARE", "40891720"),
 			Entry("encodes 8 characters", "A STARER", "10891727"),
+			Entry("encodes leading whitespace", "   LANE", "00051620"),
 			Entry("encodes > 8 characters", "I STARE AT THE HILL", `40891720
 19093203
 45500000`),

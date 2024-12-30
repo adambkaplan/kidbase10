@@ -29,6 +29,7 @@ var _ = Describe("Decoder", Label("unit"), func() {
 			Entry("decodes with trailing zeros", "51620000", "LANE"),
 			Entry("decodes < 8 characters", "40891720", "I STARE"),
 			Entry("decodes 8 characters", "10891727", "A STARER"),
+			Entry("decodes leading whitespace", "00051620", "   LANE"),
 			Entry("decodes multi-line strings", `40891720
 19093203
 45500000`, "I STARE AT THE HILL"),
