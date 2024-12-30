@@ -35,13 +35,18 @@ func ExecuteCommand(ctx context.Context, cmd string, args ...string) (out string
 	}()
 	toRun.Stdout = combinedOut
 	toRun.Stderr = combinedOut
-	err = toRun.Run()
+	runErr := toRun.Run()
 	outBytes, readErr := os.ReadFile(combinedOut.Name())
+	out = string(outBytes)
+	if runErr != nil {
+		err = fmt.Errorf("command failed with exit code %d, output: %s",
+			toRun.ProcessState.ExitCode(), out)
+	}
 	if readErr != nil && err == nil {
 		err = readErr
 		return
 	}
-	out = string(outBytes)
+
 	return
 }
 

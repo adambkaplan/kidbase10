@@ -22,3 +22,13 @@ var _ = Describe("default encoding", Label("e2e", "conformance"), func() {
 		})
 	})
 })
+
+var _ = Describe("default decoding", Label("e2e", "conformance"), func() {
+
+	When("valid encoded text is passed with the decode flag", func() {
+
+		It("decodes an integer to text", func(ctx SpecContext) {
+			Expect(ExecuteCommand(ctx, "./kidbase10", "--decode", "51620000")).To(Equal("LANE"))
+		})
+	})
+})

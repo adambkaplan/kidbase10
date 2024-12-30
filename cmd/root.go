@@ -18,13 +18,17 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/adambkaplan/kidbase10/encoding"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
-var cfgFile string
+var (
+	cfgFile string
+	decode  bool
+)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -43,9 +47,14 @@ protocol.`,
 			cmd.Help()
 			return nil
 		}
-		toEncode := args[0]
+		data := args[0]
+		if decode {
+			decoder := encoding.NewDecoder(strings.NewReader(data))
+			_, err := decoder.DecodeTo(cmd.OutOrStdout())
+			return err
+		}
 		encoder := encoding.NewEncoder(cmd.OutOrStdout())
-		return encoder.Encode(toEncode)
+		return encoder.Encode(data)
 	},
 }
 
@@ -67,9 +76,8 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.kidbase10.yaml)")
 
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// flag for decoding
+	rootCmd.Flags().BoolVarP(&decode, "decode", "d", false, "decode data")
 }
 
 // initConfig reads in config file and ENV variables if set.
