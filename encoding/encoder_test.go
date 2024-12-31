@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("Encoder", Label("unit"), func() {
+var _ = Describe("Encoder", Label("unit", "encoding"), func() {
 
 	When("default settings are used", func() {
 
