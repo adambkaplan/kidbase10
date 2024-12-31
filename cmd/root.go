@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"strings"
 
@@ -39,21 +40,34 @@ pencil. It uses a short encoding table to turn words and phrases into a series
 of base-10 numbers. The default implementation produces an output of 8-digit
 numbers, separated by newlines.
 
-The protocol is meant solely for teaching purposes. It is not meant process
-arbitrary data. This command line provides a reference implementation of the
-protocol.`,
+Examples:
+
+  kidbase10 "LANE" // encodes "LANE" to 51620000
+
+  echo "I STARE" | kidbase10 - // encodes data received from STDIN.
+
+  kidbase10 -d 51620000 // decodes "51620000" to "LANE"
+`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) == 0 {
 			return cmd.Help()
 		}
+		var input io.Reader
 		data := args[0]
+		if data == "-" {
+			input = cmd.InOrStdin()
+		} else {
+			input = strings.NewReader(data)
+		}
+
 		if decode {
-			decoder := encoding.NewDecoder(strings.NewReader(data))
+			decoder := encoding.NewDecoder(input)
 			_, err := decoder.DecodeTo(cmd.OutOrStdout())
 			return err
 		}
+
 		encoder := encoding.NewEncoder(cmd.OutOrStdout())
-		return encoder.Encode(data)
+		return encoder.Encode(input)
 	},
 }
 

@@ -2,9 +2,12 @@ package main_test
 
 import (
 	"context"
+	"strings"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+
+	"github.com/adambkaplan/kidbase10/internal/test"
 )
 
 func runEncoder(ctx context.Context, toEncode string) (string, error) {
@@ -38,6 +41,16 @@ var _ = Describe("default encoding", Label("e2e", "conformance", "encoding"), fu
 			Expect(runEncoder(ctx, "   LANE")).To(Equal("00051620"))
 		})
 	})
+
+	When("valid text is passed to stdin", func() {
+
+		It("can read a single line", func(ctx SpecContext) {
+			stdIn := strings.NewReader("I STARE")
+			runner := test.NewCommandRunner(ctx, "./kidbase10", "-").WithStdIn(stdIn)
+			Expect(runner.Execute()).To(Equal("40891720"))
+		})
+
+	})
 })
 
 var _ = Describe("default decoding", Label("e2e", "conformance", "decoding"), func() {
@@ -62,5 +75,24 @@ var _ = Describe("default decoding", Label("e2e", "conformance", "decoding"), fu
 		It("decodes leading zeros as whitespace", func(ctx SpecContext) {
 			Expect(runDecoder(ctx, "00051620")).To(Equal("   LANE"))
 		})
+	})
+
+	When("valid text is passed to stdin", func() {
+
+		It("can read a single line", func(ctx SpecContext) {
+			stdIn := strings.NewReader("40891720")
+			runner := test.NewCommandRunner(ctx, "./kidbase10", "--decode", "-").WithStdIn(stdIn)
+			Expect(runner.Execute()).To(Equal("I STARE"))
+		})
+
+		It("can read multiple lines", func(ctx SpecContext) {
+			encodedInput := `40891720
+19093203
+45500000`
+			stdIn := strings.NewReader(encodedInput)
+			runner := test.NewCommandRunner(ctx, "./kidbase10", "--decode", "-").WithStdIn(stdIn)
+			Expect(runner.Execute()).To(Equal("I STARE AT THE HILL"))
+		})
+
 	})
 })
