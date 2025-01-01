@@ -34,7 +34,15 @@ func NewEncoder(w io.Writer) *Encoder {
 	}
 }
 
-func (e *Encoder) Encode(data string) error {
+func (e *Encoder) Encode(r io.Reader) error {
+	data, err := io.ReadAll(r)
+	if err != nil {
+		return err
+	}
+	return e.EncodeString(string(data))
+}
+
+func (e *Encoder) EncodeString(data string) error {
 	dataLen := len(data)
 	for i, r := range data {
 		encoded, ok := e.encoding[r]

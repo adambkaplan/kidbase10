@@ -32,4 +32,4 @@ clean: ## Clean up build environment.
 
 .PHONY: test
 test: ## Run automated tests.
-	go test -v ./...
+	go test -v ./... -ginkgo.v

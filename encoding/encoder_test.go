@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("Encoder", Label("unit"), func() {
+var _ = Describe("Encoder", Label("unit", "encoding"), func() {
 
 	When("default settings are used", func() {
 
@@ -23,7 +23,7 @@ var _ = Describe("Encoder", Label("unit"), func() {
 
 		DescribeTable("samples should succeed",
 			func(input string, output string) {
-				Expect(encoder.Encode(input)).To(Succeed())
+				Expect(encoder.EncodeString(input)).To(Succeed())
 				Expect(writer.String()).To(Equal(output))
 			},
 			Entry("encodes 4-char string", "LANE", "51620000"),
